@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import Signup from './components/Signup';
+import Login from './components/Login';
 
-function App() {
+const App = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  const handleSignup = () => {
+    // Perform signup logic
+    setAuthenticated(true);
+  };
+
+  const handleLogin = () => {
+    // Perform login logic
+    setAuthenticated(true);
+  };
+
+  const Dashboard = () => {
+    return <div className="dashboard">Welcome to the Dashboard!</div>;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <nav className="p-4 bg-blue-500 text-white">
+        <Link to="/signup" className="mx-2">Sign Up</Link>
+        <Link to="/login" className="mx-2">Login</Link>
+      </nav>
+      <Routes>
+        <Route path="/signup" element={<Signup onSignup={handleSignup} />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/dashboard" element={authenticated ? <Dashboard /> : <Navigate to="/login" />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
